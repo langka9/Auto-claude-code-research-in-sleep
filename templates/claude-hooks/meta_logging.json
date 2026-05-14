@@ -1,4 +1,24 @@
 {
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "",
+    "ANTHROPIC_BASE_URL": "",
+    "ANTHROPIC_MODEL": "",
+    "CLAUDE_PROJECT_DIR": "",
+    "PATH": "/d/Software/anaconda3/envs/aris:/c/Users/15772/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/15772/bin:/d/Software/Microsoft VS Code:/c/Python314/Scripts:/c/Python314:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0:/c/WINDOWS/System32/OpenSSH:/d/Software/anaconda3:/d/Software/anaconda3/Scripts:/d/Software/anaconda3/Library/bin:/d/Software/anaconda3/Library/usr/bin:/d/Software/anaconda3/Library/mingw-w64/bin:/d/Software/WinSCP/WinSCP:/c/Program Files/dotnet:/d/Software/anaconda3/Scripts/platforms:/c/ProgramData/chocolatey/bin:/d/Software/Redis:/d/Software/ngrok-v3-stable-windows-amd64:/d/Software/nodejs:/cmd:/d/Software/Microsoft VS Code/bin:/c/Program Files/dotnet:/c/Users/15772/.cargo/bin:/c/Users/15772/AppData/Local/Microsoft/WindowsApps:/c/Users/15772/.bun/bin:/c/Users/15772/AppData/Roaming/npm:/c/Users/15772/.mineru/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/c/Users/15772/.claude/plugins/cache/pua-skills/pua/3.2.3/bin"
+  },
+  "extraKnownMarketplaces": {
+    "pua-skills": {
+      "source": {
+        "source": "github",
+        "repo": "tanweai/pua"
+      }
+    }
+  },
+  "effortLevel": "high",
+  "enabledPlugins": {
+    "pua@pua-skills": true
+  },
+  "model": "",
   "$comment": "ARIS Meta-Optimize: Passive event logging for harness optimization. Copy to .claude/settings.json or merge into existing settings.",
   "hooks": {
     "PostToolUse": [

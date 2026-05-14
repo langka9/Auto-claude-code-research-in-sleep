@@ -18,7 +18,7 @@ mkdir -p "$PROJECT_META" "$GLOBAL_META"
 # Read stdin payload into env var (cannot use heredoc + herestring simultaneously)
 export ARIS_HOOK_PAYLOAD="$(cat)"
 
-python3 - "$PROJECT_META/events.jsonl" "$GLOBAL_META/events.jsonl" << 'PYEOF'
+python - "$PROJECT_META/events.jsonl" "$GLOBAL_META/events.jsonl" << 'PYEOF'
 import json, sys, os
 from datetime import datetime, timezone
 
@@ -80,12 +80,12 @@ elif event_name == "SessionEnd":
     record["event"] = "session_end"
 
 # Write to project-level log
-with open(project_log, "a") as f:
+with open(project_log, "a", encoding="utf-8") as f:
     f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 # Write to global log with project tag
 global_record = record.copy()
 global_record["project"] = os.path.basename(project_dir) if project_dir else "unknown"
-with open(global_log, "a") as f:
+with open(global_log, "a", encoding="utf-8") as f:
     f.write(json.dumps(global_record, ensure_ascii=False) + "\n")
 PYEOF
