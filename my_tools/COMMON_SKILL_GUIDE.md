@@ -36,7 +36,7 @@
 参考 `README.md` 中的说明，在你的项目里运行：
 
 ```powershell
-D:\BaiduSyncdisk\code\MyDemo\Auto-claude-code-research-in-sleep\my_tools\install_aris_flat.ps1
+D:\BaiduSyncdisk\code\MyDemo\Auto-claude-code-research-in-sleep\my_tools\install_aris_flat.ps1 -Bootstrap
 ```
 
 ### 第二步：配置 .env 文件
@@ -85,6 +85,19 @@ pip install modal && modal setup
 ### 第四步：配置 CLAUDE.md
 
 在你的项目根目录创建 `CLAUDE.md`，内容见**附录 A**。这是 ARIS 读取配置的入口。
+
+### 第五步：配置 .claude/settings.json
+在 `.claude/settings.json` 中配置你的 Anthropic API 相关信息，确保 `ANTHROPIC_MODEL` 设置为 `kimi-for-coding`或者其他模型。
+
+```json
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "your-anthropic-api-key"
+    "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
+    "ANTHROPIC_MODEL": "kimi-for-coding"
+    }
+}
+```
 
 ---
 
