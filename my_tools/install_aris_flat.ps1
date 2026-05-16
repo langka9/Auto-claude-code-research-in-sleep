@@ -151,6 +151,32 @@ function Bootstrap-Project {
         }
     }
 
+    # Junction to shared downloaded paper path
+    $papersLink = Join-Path $ProjPath 'papers'
+    $papersSource = '..\Shared_Knowledge_Base\papers_real'
+    if (-not (Test-Path $papersLink)) {
+        if (Test-Path $papersSource) {
+            New-Item -ItemType Junction -Path $papersLink -Target $papersSource | Out-Null
+            Write-Log "Created junction: papers -> $papersSource" -ForegroundColor Green
+        } else {
+            Write-Warn "papers source not found at $papersSource"
+            Write-Warn "Please create it manually or update the path in the script"
+        }
+    }
+
+    # Junction to shared research-wiki
+    $researchWikiLink = Join-Path $ProjPath 'research-wiki'
+    $researchWikiSource = '..\Shared_Knowledge_Base\research-wiki-real'
+    if (-not (Test-Path $researchWikiLink)) {
+        if (Test-Path $researchWikiSource) {
+            New-Item -ItemType Junction -Path $researchWikiLink -Target $researchWikiSource | Out-Null
+            Write-Log "Created junction: research-wiki -> $researchWikiSource" -ForegroundColor Green
+        } else {
+            Write-Warn "research-wiki source not found at $researchWikiSource"
+            Write-Warn "Please create it manually or update the path in the script"
+        }
+    }
+
     # Copy guide files
     $guideFiles = @('COMMON_SKILL_GUIDE.md', 'README.md', 'SKILL_GUIDE.md')
     foreach ($f in $guideFiles) {
