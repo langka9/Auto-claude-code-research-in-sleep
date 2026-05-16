@@ -3,6 +3,141 @@
 > 这份手册是专属于你的。它只包含你真正会用到的 skill，每一步都告诉你：什么时候用、怎么配置、prompt 怎么写。
 
 ---
+# 简化版
+
+### 第一步：安装额外依赖
+
+```bash
+# DeepXiv 渐进式文献检索
+pip install deepxiv-sdk
+
+# AlphaXiv 搜索（可选）
+# 直接通过 web 搜索即可，无需额外安装
+
+# Modal 无服务器 GPU（如果你没有远程 GPU，用这个）
+pip install modal && modal setup
+```
+
+### 第二步：配置 .env 文件
+
+ARIS 的所有配置都通过 `.env` 文件管理，不需要设置系统环境变量。
+
+```bash
+# 1. 复制模板文件到你的项目根目录
+cp my_tools/.env.example .env
+
+# 2. 编辑 .env，填写你的配置
+#    LLM_WIKI_PATH=D:\path\to\your\llm-wiki
+#    ARIS_REPO=D:\path\to\Auto-claude-code-research-in-sleep
+#    SEMANTIC_SCHOLAR_API_KEY=your-api-key-here
+```
+
+`.env` 文件放在哪里？
+- **推荐**：和 `install_aris_flat.ps1` 放在同一目录（Bootstrap 时会自动复制）
+- **也可以**：放在你的 idea 项目根目录
+
+脚本会**先查找脚本所在目录的 `.env`**，找不到再查找**当前工作目录的 `.env`**。
+
+**配置项说明：**
+
+| 配置项 | 必填 | 说明 |
+|--------|------|------|
+| `LLM_WIKI_PATH` | 是 | 你的 Obsidian 知识库路径 |
+| `ARIS_REPO` | 否 | ARIS 仓库路径。留空会自动检测 |
+| `SEMANTIC_SCHOLAR_API_KEY` | 是 | 到 https://www.semanticscholar.org/product/api#api-key-form 免费申请 |
+
+**> 重要：不配置 SEMANTIC_SCHOLAR_API_KEY 也能用，但请求限制很严格（约1次/秒），容易触发 429 错误。强烈建议配置。**
+
+### 第三步：初始化
+```bash
+mkdir D:\AutoResearch\my-idea
+cd D:\AutoResearch\my-idea
+D:\BaiduSyncdisk\code\MyDemo\Auto-claude-code-research-in-sleep\my_tools\install_aris_flat.ps1 -Bootstrap
+```
+
+### 第四步：配置 CLAUDE.md
+
+在你的项目根目录创建 `CLAUDE.md`，内容见**附录 A**。这是 ARIS 读取配置的入口。
+
+### 第五步：配置 .claude/settings.json
+在 `.claude/settings.json` 中配置你的 Anthropic API 相关信息，确保 `ANTHROPIC_MODEL` 设置为 `kimi-for-coding`或者其他模型。
+
+```json
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "your-anthropic-api-key"
+    "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
+    "ANTHROPIC_MODEL": "kimi-for-coding"
+    }
+}
+```
+
+## Step 1: 文献调研（Obsidian + 多源搜索）
+
+```bash
+/research-wiki init # 初始化项目专属知识库
+/research-wiki ingest "llm-wiki/" # 增量添加论文
+/research-wiki sync # 同步索引
+/research-wiki query "扩散模型采样效率的最新进展" # 查询知识库（不常用）
+/research-lit "扩散模型采样效率" — sources: obsidian, deepxiv, semantic-scholar, web, arxiv download: true, max download: 20 # 多源搜索并下载论文
+/research-wiki ingest "papers/" # 把下载的论文加入知识库
+/research-wiki sync # 同步索引
+/alphaxiv "扩散模型采样效率" # 获取 AlphaXiv 的补充结果
+
+>**ingest 后一定跟着 sync**
+
+## Step 2: 研究方案设计（数学理论 + 证明推导）
+### 2.1 形成研究方案
+
+```bash
+# 从 idea 开始
+/idea-creator "改进扩散模型采样效率的新方向"
+# 基于文献调研结果，精炼研究方案
+/research-refine @idea-stage\IDEA_REPORT.md 中的 Tier 1
+```
+
+### 2.2 数学理论设计
+
+```bash
+# 帮我推导核心公式
+/formula-derivation @FINAL_PROPOSAL.md "推导FINAL_PROPOSAL.md中的理论，把推导结果和过程记录在 formulas/ 目录下"
+# 帮我写证明
+/proof-writer "帮我证明 formulas/ 里面的所有定理，证明过程写在 proofs/ 目录下"
+# 验证证明的正确性
+/proof-checker "检验 proofs/ 中所有证明的正确性，检验过程写进 proofs/ 目录下，并且以 CHECK 为文件前缀"
+```
+
+### 2.3 实验规划
+
+```bash
+/experiment-plan  @refine-logs/FINAL_PROPOSAL.md  @refine-logs/REFINEMENT_REPORT.md @CLAUDE.md
+```
+
+### Step 2 的输出
+
+- `refine-logs/FINAL_PROPOSAL.md` — 精炼后的研究方案
+- `refine-logs/EXPERIMENT_PLAN.md` — 实验路线图
+- `proofs/` — 证明文档
+- `formulas/` — 推导文档
+
+---
+
+## Step 3: 实验执行（远程服务器）
+
+> **什么时候做？**
+> > 研究方案确定后，需要验证。你的实验跑在远程服务器上。
+
+### 3.1 配置远程服务器信息
+在 `CLAUDE.md` 中配置 GPU 服务器配置：
+
+### 3.2 实现实验代码
+```bash
+# 自动读取 EXPERIMENT_PLAN.md，实现代码
+/experiment-bridge "refine-logs/EXPERIMENT_PLAN.md" 远程服务器配置在 @CLAUDE.md 中
+```
+
+---
+# 完整版
 
 ## 目录
 
@@ -663,28 +798,19 @@ pretrained_weights: /data/pretrained
 
 > **什么时候做？**
 > 
-> **每个阶段结束后都做。** 不是最后才做，而是持续积累。
+> **初始化和导入论文的时候做。** 其他时候会根据调用的skill而自动积累入库。
 
 ### 7.1 存档项目产出到 research-wiki
 
-每次工作流结束后，把项目专属内容存入 `research-wiki/`：
+初始化和导入论文的时候，把项目专属内容存入 `research-wiki/`：
 
 ```bash
+# 初始化
+/research-wiki init
+
 # 文献调研后
 /research-wiki ingest "papers/"
 /research-wiki ingest "research-wiki/papers/"
-
-# Idea 确定后
-/research-wiki ingest "idea-stage/IDEA_REPORT.md"
-
-# 方案精炼后
-/research-wiki ingest "refine-logs/FINAL_PROPOSAL.md"
-
-# 实验完成后
-/research-wiki ingest "experiments/results/"
-
-# 论文完成后
-/research-wiki ingest "paper/"
 
 # 同步索引
 /research-wiki sync
